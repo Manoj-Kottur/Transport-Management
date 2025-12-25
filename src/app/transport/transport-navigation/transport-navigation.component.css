@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #05475afa;
+    background-color: #19ce40fa;
 }
 
 .navBarItem {
@@ -25,5 +25,5 @@
 
 .selectedTab a,
 .navBarItem a:hover {
-    background-color: #008CBA;
+    background-color: #2fe58f;
 }
