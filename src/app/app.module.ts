@@ -21,7 +21,7 @@ const routes: Routes = [
     AppComponent, TransportNavigationComponent, OfferRideComponent, BookRideComponent, LogDropComponent
   ],
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
     BrowserModule, FormsModule,
 ],
   exports: [RouterModule],
