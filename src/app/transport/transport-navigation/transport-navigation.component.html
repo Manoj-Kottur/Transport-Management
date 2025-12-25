@@ -1,0 +1,12 @@
+<div>
+    <div class="header">
+        <h2>Transport Details</h2>
+    </div>
+    <div>
+        <ul class="navBarContainer">
+            <li class="navBarItem" [ngClass]="{'selectedTab' : selectedTab == transportService.RIDE_TAB}" (click)="onChangeNavBarItem(transportService.RIDE_TAB)"><a>Ride</a></li>
+            <li class="navBarItem" [ngClass]="{'selectedTab' : selectedTab == transportService.PICKUP_TAB}" (click)="onChangeNavBarItem(transportService.PICKUP_TAB)"><a>Pick-up</a></li>
+            <li class="navBarItem" [ngClass]="{'selectedTab' : selectedTab == transportService.DROP_TAB}" (click)="onChangeNavBarItem(transportService.DROP_TAB)"><a>Drop</a></li>
+        </ul>
+    </div>
+</div>

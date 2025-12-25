@@ -1,0 +1,52 @@
+<div class="addButtonContainer">
+    <button class='addBookingBtn cursorPointer' (click)="showAddRideDialog()">Add Pick-up</button>
+</div>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>Rider ID</th>
+            <th>Employee ID</th>
+        </tr>
+        <ng-container *ngIf="totalItems != 0">
+            <tr *ngFor="let ride of tempBookingList">
+                <td>{{ride['riderId']}}</td>
+                <td>{{ride['employeeId']}}</td>
+            </tr>
+        </ng-container>
+        <ng-container *ngIf="totalItems == 0">
+            <td colspan="2" class="noRecordsText">No Records</td>
+        </ng-container>
+    </table>
+</div>
+<div class="pagination" *ngIf="totalItems > 10">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{currentPage}} of {{ totalItems/pageSize }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage*pageSize >= totalItems">Next</button>
+</div>
+<div *ngIf="showBookingDialog" class="dialogContainer">
+    <dialog id="bookingDetailDialog" open>
+        <h2>Add Pick-up</h2>
+        <form>
+            <label>Filter Rides By Vehicle Type</label>
+            <div class="filterBtnContainer">
+                <button class="filterBtn" [ngClass]="{'selectedFilterBtn' : filterRidesBasedOnType == transportService.ALL}" (click)="filterRiderId(transportService.ALL)">{{transportService.ALL}}</button>
+                <button class="filterBtn" [ngClass]="{'selectedFilterBtn' : filterRidesBasedOnType == transportService.BIKE}" (click)="filterRiderId(transportService.BIKE)">{{transportService.BIKE}}</button>
+                <button class="filterBtn" [ngClass]="{'selectedFilterBtn' : filterRidesBasedOnType == transportService.CAR}" (click)="filterRiderId(transportService.CAR)">{{transportService.CAR}}</button>
+            </div>
+            <label>Rider ID <b>*</b></label>
+            <select [(ngModel)]="bookingDetails.riderId" name="riderId">
+              <option value="">Select Rider Id</option>
+              <ng-container *ngFor="let rider of filteredRiders">
+              <option *ngIf="filterRidesBasedOnType == transportService.ALL || (filterRidesBasedOnType == rider.vehicleType)" value="{{rider.employeeId}}">
+                {{rider.employeeId}}</option>
+              </ng-container>
+            </select>
+            <label>Employee ID <b>*</b></label>
+            <input type=text placeholder="Employee ID" [(ngModel)]="bookingDetails.employeeId" name="employeeId">
+            <div class="dialogButtonContainer">
+                <button class="cancelBtn cursorPointer" type="button" (click)="closeDialog()">Cancel</button>
+                <button class="saveBtn cursorPointer" type="button" (click)="bookRide()">Save</button>
+            </div>
+        </form>
+    </dialog>
+</div>

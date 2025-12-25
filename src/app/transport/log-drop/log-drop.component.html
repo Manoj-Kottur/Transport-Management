@@ -1,0 +1,54 @@
+<div class="addButtonContainer">
+    <button class='addDropBtn cursorPointer' (click)="showAddRideDialog()">Add Drop</button>
+</div>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>Rider ID</th>
+            <th>Employee ID</th>
+        </tr>
+        <ng-container *ngIf="totalItems != 0">
+            <tr *ngFor="let ride of tempDropList">
+                <td>{{ride['riderId']}}</td>
+                <td>{{ride['employeeId']}}</td>
+            </tr>
+        </ng-container>
+        <ng-container *ngIf="totalItems == 0">
+            <td colspan="2" class="noRecordsText">No Records</td>
+        </ng-container>
+    </table>
+</div>
+<div class="pagination" *ngIf="totalItems > 10">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{currentPage}} of {{ totalItems/pageSize }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage*pageSize >= totalItems">Next</button>
+</div>
+<div *ngIf="showDropDialog" class="dialogContainer">
+    <dialog id="dropDetailDialog" open>
+        <h2>Add Drop</h2>
+        <form>
+            <label>Rider ID <b>*</b></label>
+            <select (change)="onRiderSelect($event)" [(ngModel)]="dropDetails.riderId" name="riderId">
+        <option value="">Select Rider Id</option>
+        <ng-container *ngFor="let rider of filteredRiders">
+          <option value="{{rider.riderId}}">
+            {{rider.riderId}}
+          </option>
+        </ng-container>
+      </select>
+            <label>Employee ID <b>*</b></label>
+            <select [(ngModel)]="dropDetails.employeeId" name="employeeId">
+        <option value="">Select Employee Id</option>
+        <ng-container *ngFor="let rider of filteredEmployees">
+          <option value="{{rider.employeeId}}">
+            {{rider.employeeId}}
+          </option>
+        </ng-container>
+      </select>
+            <div class="dialogButtonContainer">
+                <button class="cancelBtn cursorPointer" type="button" (click)="closeDialog()">Cancel</button>
+                <button class="saveBtn cursorPointer" type="button" (click)="addDrop()">Save</button>
+            </div>
+        </form>
+    </dialog>
+</div>

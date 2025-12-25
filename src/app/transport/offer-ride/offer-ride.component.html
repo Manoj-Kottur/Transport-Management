@@ -1,0 +1,67 @@
+<div class="addButtonContainer">
+    <button class='addRideBtn cursorPointer' (click)="showAddRideDialog()">Add Ride</button>
+</div>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>Employee Id</th>
+            <th>Vehicle Type</th>
+            <th>Vehicle No</th>
+            <th>Vacant Seats</th>
+            <th>Time</th>
+            <th>Pick-up Point</th>
+            <th>Destination</th>
+        </tr>
+        <ng-container *ngIf="totalItems != 0">
+            <tr *ngFor="let ride of tempRideList">
+                <td *ngFor="let property of rideDetailProperties">{{ride[property]}}</td>
+            </tr>
+        </ng-container>
+        <ng-container *ngIf="totalItems == 0">
+            <td colspan="7" class="noRecordsText">No Records</td>
+        </ng-container>
+    </table>
+</div>
+<div class="pagination" *ngIf="totalItems > 10">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{currentPage}} of {{ totalItems/pageSize }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage*pageSize >= totalItems">Next</button>
+</div>
+<div *ngIf="showRideDialog" class="dialogContainer">
+    <dialog id="rideDetailDialog" open>
+        <h2>Add New Ride</h2>
+
+        <form>
+            <label>Employee Id <b>*</b></label>
+            <input type=text placeholder="Employee ID" [(ngModel)]="rideDetail.employeeId" name="employeeId">
+
+            <label>Vehicle Type <b>*</b></label>
+            <select [(ngModel)]="rideDetail.vehicleType" name="vehicleType">
+              <option value="">Select Vehicle Type</option>
+              <option value="{{transportService.BIKE}}">{{transportService.BIKE}}</option>
+              <option value="{{transportService.CAR}}">{{transportService.CAR}}</option>
+            </select>
+
+            <label>Vehicle No <b>*</b></label>
+            <input type=text placeholder="Vehicle Number" [(ngModel)]="rideDetail.vehicleNo" name="employeeId">
+
+            <label>Vacant Seats <b>*</b></label>
+            <input type=number placeholder="Vacant Seats" [(ngModel)]="rideDetail.vacantSeats" name="vacantSeats">
+
+            <label>Time <b>*</b></label>
+            <input type="time" [(ngModel)]="rideDetail.time" [min]="minTime" name="time">
+
+            <label>Pick-up Point <b>*</b></label>
+            <input type=text placeholder="Pick-up Point" [(ngModel)]="rideDetail.pickUpPoint" name="pickUpPoint">
+
+            <label>Destination <b>*</b></label>
+            <input type=text placeholder="Destination" [(ngModel)]="rideDetail.destination" name="destination">
+
+            <div class="dialogButtonContainer">
+                <button class="cancelBtn cursorPointer" type="button" (click)="closeDialog()">Cancel</button>
+                <button class="saveBtn cursorPointer" type="button" (click)="addNewRide()">Save</button>
+            </div>
+        </form>
+
+    </dialog>
+</div>
